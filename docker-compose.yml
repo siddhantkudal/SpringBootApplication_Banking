@@ -1,0 +1,52 @@
+#version: '3.8'
+services:
+
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      #- MYSQL_DATABASE=BankDB
+      #- MYSQL_ROOT_PASSWORD=Test@123
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=BankDB
+    volumes:
+      - bossssss:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - bank-app
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  bank_ui:
+    #image: java_bankapplication:latest
+    build: .
+    container_name: bankui
+    environment:
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - bank-app
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+      
+networks:
+  bank-app:
+volumes:
+  bossssss:
