@@ -1,0 +1,33 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: bank-ingress
+  namespace: bank
+spec:
+  rules:
+  - http:
+     paths:
+      - pathType: Prefix
+        path: /login
+        backend:
+          service:
+            name: bankui-service
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: /register
+        backend:
+          service:
+            name: bankui-service
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: /dashboard
+        backend:
+          service:
+            name: bankui-service
+            port:
+              number: 8080
+
+
+

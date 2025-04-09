@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: bankingappui-deployment
+  namespace: bank
+  labels:
+    app: bankingUI
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bankUI
+  template:
+    metadata:
+      name: bankUI_Pod
+      namespace: bank
+      labels:
+        app: bankUI
+    spec:
+      containers:
+        - name: bankui
+          image: siddhantkudal/banking_app:1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bankui-secret
+                  key: password
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bankui-configmap
+                  key: URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bankui-configmap
+                  key: USERNAME

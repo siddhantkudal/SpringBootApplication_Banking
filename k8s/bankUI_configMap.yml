@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: bankui-configmap
+  namespace: bank
+data:
+  USERNAME: root
+  URL: jdbc:mysql://mysql-service:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  databasename: BankDB

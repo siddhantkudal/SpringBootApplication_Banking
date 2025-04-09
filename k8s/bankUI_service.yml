@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bankui-service
+  namespace: bank
+spec:
+  selector:
+    app: bankUI
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
