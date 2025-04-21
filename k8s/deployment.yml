@@ -21,7 +21,7 @@ spec:
         - name: mysql
           image: mysql:latest
           ports:
-            - containerPort: 3306
+            - containerPort: 3306  #mysql port
           env:
             - name: MYSQL_ROOT_PASSWORD   #env variable name
               valueFrom:
